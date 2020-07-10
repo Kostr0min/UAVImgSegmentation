@@ -10,7 +10,12 @@ import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
 import albumentations as albu
+
+from torch.utils.data import TensorDataset, DataLoader,Dataset
 from albumentations.pytorch import ToTensor
+from catalyst.dl.runner import SupervisedRunner
+
+
 from catalyst.dl import utils
 
 def get_img(x, path):
@@ -160,3 +165,38 @@ def plot_with_augmentation(image, mask, augment):
     
     
 sigmoid = lambda x: 1 / (1 + np.exp(-x))
+
+class CityDataset(Dataset):
+    def __init__(self, df: pd.DataFrame = None, datatype: str = 'train', img_ids: np.array = None, path: str = '',
+                 transforms = albu.Compose([albu.HorizontalFlip(),ToTensor()]),
+                preprocessing=None):
+        self.df = df
+        self.path = path
+        if datatype != 'test':
+            self.data_folder = f"{self.path}/image_train"
+        else:
+            self.data_folder = f"{self.path}/test"
+        self.img_ids = img_ids
+        self.transforms = transforms
+        self.preprocessing = preprocessing
+
+    def __getitem__(self, idx):
+        image_name = self.img_ids[idx]
+        mask = make_mask(self.df, image_name)
+        image_path = os.path.join(self.data_folder, image_name)
+        
+        img = cv2.imread(image_path)
+        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+        
+        augmented = self.transforms(image=img, mask=mask)
+        img = augmented['image']
+        mask = augmented['mask']
+        
+        if self.preprocessing:
+            preprocessed = self.preprocessing(image=img, mask=mask)
+            img = preprocessed['image']
+            mask = preprocessed['mask']
+        return img, mask
+
+    def __len__(self):
+        return len(self.img_ids)
