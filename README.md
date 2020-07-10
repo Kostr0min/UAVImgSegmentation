@@ -14,6 +14,9 @@ Train the model and select the best prediction object to use in  the comparision
 :black_square_button: Create an instance segmentation model to improve algorithm efficiency    
 :black_square_button: Modify object selection algorithm    
 :black_square_button: Create comparison algorithm able to find coordinate of selecting object in all masks 
+
+[Image of Yaktocat](https://github.com/Kostr0min/UAVImgSegmentation/images/git1.png)
+
 ## **Procedure**
 Use Jupyter Notebooks:
 + __DataPrepLarge__ for make base data preparation:
@@ -32,6 +35,15 @@ Use Jupyter Notebooks:
   - make object transformation
   - compare objects using CPD algorithm
   - to be continued :clock2::clock230::clock3:
-  
-  
-  
+__________________________________________  
+  ## **Utils**
+  + get_img -> return image from path
+  + rle_decode -> make mask as 2darray from rle-code
+  + mask2rle -> create rle code from mask
+  + make_mask -> return ndarray (concatenate masks for all classes to one array)
+  + post_process -> in 2 words: apply thresholding to predicted masks
+  + visualize / visualize_with_raw -> plot images and masks
+  + plot_with_augmentation -> plot images with augmentation
+  + CityDataset - PyTorch Dataset object
+  + Create_houses_df
+    - get_edge -> return contour points (only key points, without lines between them)
