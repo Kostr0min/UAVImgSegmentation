@@ -13,9 +13,7 @@ Train the model and select the best prediction object to use in  the comparision
 :white_check_mark: Comparison using CPD-based algorithm    
 :black_square_button: Create an instance segmentation model to improve algorithm efficiency    
 :black_square_button: Modify object selection algorithm    
-:black_square_button: Create comparison algorithm able to find coordinate of selecting object in all masks 
-
-[Image of Yaktocat](https://github.com/Kostr0min/UAVImgSegmentation/images/git1.png)
+:black_square_button: Create comparison algorithm able to find coordinate of selecting object in all masks
 
 ## **Procedure**
 Use Jupyter Notebooks:
